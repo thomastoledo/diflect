@@ -1,6 +1,6 @@
 # Diflect
 
-A lightweight utility to compare two JavaScript objects and identify differences. **diffent** computes additions, removals, and updates, supporting nested structures, ignored keys, and custom comparison logic.
+A lightweight utility to compare two JavaScript objects and identify differences. **Diflect** computes additions, removals, and updates, supporting nested structures, ignored keys, and custom comparison logic.
 
 ## Features
 
@@ -16,13 +16,13 @@ A lightweight utility to compare two JavaScript objects and identify differences
 Install using `npm` or `yarn`:
 
 ```bash
-npm install @your-namespace/diffent
+npm install diflect
 ```
 
 Or:
 
 ```bash
-yarn add @your-namespace/diffent
+yarn add diflect
 ```
 
 ---
@@ -32,7 +32,7 @@ yarn add @your-namespace/diffent
 ### Import the function
 
 ```typescript
-import { objectDiff } from '@your-namespace/diffent';
+import { objectDiff } from 'diflect';
 ```
 
 ### Basic Example
