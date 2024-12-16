@@ -1,0 +1,30 @@
+{
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "name": "diflect",
+  "version": "0.0.1",
+  "keywords": [
+    "object",
+    "diff",
+    "js",
+    "javascript",
+    "utility",
+    "typescript"
+  ],
+  "description": "Diflect is a micro-library to check diffs between objects",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomastoledo/Diflect.git"
+  },
+  "author": "Thomas TOLEDO",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thomastoledo/Diflect/issues"
+  },
+  "homepage": "https://github.com/thomastoledo/Diflect#readme"
+}
