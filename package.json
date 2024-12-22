@@ -4,10 +4,24 @@
   "keywords": [
     "object",
     "diff",
-    "js",
+    "difference",
+    "array",
+    "comparison",
+    "nested objects",
+    "deep comparison",
+    "utilities",
+    "key changes",
+    "added keys",
+    "removed keys",
+    "updated keys",
+    "typescript",
     "javascript",
-    "utility",
-    "typescript"
+    "object utilities",
+    "array utilities",
+    "compare objects",
+    "compare arrays",
+    "diff tool",
+    "data changes"
   ],
   "description": "Diflect is a micro-library to check diffs between objects",
   "devDependencies": {
