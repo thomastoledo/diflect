@@ -1,27 +1,25 @@
 # Diflect
 
-A lightweight utility to compare two JavaScript objects and identify differences. **Diflect** computes additions, removals, and updates, supporting nested structures, ignored keys, and custom comparison logic.
+**Diflect** is a lightweight utility library for comparing objects and arrays in JavaScript/TypeScript. It computes the differences between two objects or arrays, providing details on added, removed, and updated keys or values.
 
-## Features
+### Features
 
-- 📂 **Handles nested objects**: Recursively computes differences.  
-- 🔑 **Ignore specific keys**: Exclude keys from comparison.  
-- ⚙️ **Custom comparison**: Define your own logic for equality checks.  
-- 🔄 **Lightweight & dependency-free**: Only pure TypeScript/JavaScript.
+- **Object Differences**: Compare two objects to identify added, removed, and updated keys.
+- **Array Differences**: Compare arrays efficiently using optimized algorithms.
+- **Nested Structures**: Handles deep nested objects and arrays seamlessly.
+- **Custom Comparison**: Supports custom comparison functions for flexible use cases.
+- **Ignored Keys**: Specify keys to ignore during comparison.
+- **Performance**: Leverages efficient algorithms for array and object comparison, suitable for large datasets.
 
 ---
 
 ## Installation
 
-Install using `npm` or `yarn`:
+Install Diflect using npm or yarn:
 
 ```bash
 npm install diflect
-```
-
-Or:
-
-```bash
+# or
 yarn add diflect
 ```
 
@@ -29,121 +27,170 @@ yarn add diflect
 
 ## Usage
 
-### Import the function
+### Importing Diflect
 
 ```typescript
 import { objectDiff } from 'diflect';
 ```
 
-### Basic Example
+### Example: Object Difference
 
 ```typescript
-const base = { a: 1, b: 2 };
-const target = { a: 1, b: 3, c: 4 };
+const base = { a: 1, b: 2, c: 3 };
+const target = { a: 1, b: 20, d: 4 };
 
 const diff = objectDiff(base, target);
 
 console.log(diff);
-/*
-{
-  added: { c: 4 },
-  removed: {},
-  updated: { b: 3 }
-}
-*/
+// Output:
+// {
+//   added: { d: 4 },
+//   removed: { c: 3 },
+//   updated: { b: 20 },
+// }
 ```
 
----
-
-### Examples
-
-#### 1. **Nested Objects**
+### Example: Nested Objects
 
 ```typescript
-const base = { user: { name: 'Alice', age: 25 }, active: true };
-const target = { user: { name: 'Alice', age: 26 }, admin: true };
+const base = { nested: { x: 1, y: 2 } };
+const target = { nested: { x: 10, y: 2 } };
 
 const diff = objectDiff(base, target);
 
 console.log(diff);
-/*
-{
-  added: { admin: true },
-  removed: { active: true },
-  updated: { user: { updated: { age: 26 } } }
-}
-*/
+// Output:
+// {
+//   added: {},
+//   removed: {},
+//   updated: {
+//     nested: {
+//       added: {},
+//       removed: {},
+//       updated: { x: 10 },
+//     },
+//   },
+// }
 ```
 
-#### 2. **Ignoring Keys**
+### Example: Arrays
 
 ```typescript
-const base = { a: 1, b: 2, metadata: { version: 1 } };
-const target = { a: 1, b: 3, metadata: { version: 2 } };
+const base = { a: [1, 2, 3], b: [3, 4] };
+const target = { a: [1, 2, 4], b: [3, 4, 5] };
 
-const diff = objectDiff(base, target, { ignoreKeys: ['metadata'] });
+const diff = objectDiff(base, target);
 
 console.log(diff);
-/*
-{
-  added: {},
-  removed: {},
-  updated: { b: 3 }
-}
-*/
+// Output:
+// {
+//   added: {},
+//   removed: {},
+//   updated: {
+//     a: { added: [4], removed: [3] },
+//     b: { added: [5], removed: [] },
+//   },
+// }
 ```
 
-#### 3. **Custom Comparison Function**
+### Example: Ignore Keys
 
 ```typescript
-const base = { score: 99.5 };
-const target = { score: 99.8 };
+const base = { a: 1, b: 2, c: 3 };
+const target = { a: 10, b: 20, c: 3 };
 
-// Allow a tolerance of 0.5 for numeric comparisons
-const compareFn = (a, b) => 
-  typeof a === 'number' && typeof b === 'number'
-    ? Math.abs(a - b) <= 0.5
-    : a === b;
-
-const diff = objectDiff(base, target, { compareFn });
+const diff = objectDiff(base, target, { ignoreKeys: ['c'] });
 
 console.log(diff);
-/*
-{
-  added: {},
-  removed: {},
-  updated: {}
-}
-*/
+// Output:
+// {
+//   added: {},
+//   removed: {},
+//   updated: { a: 10, b: 20 },
+// }
+```
+
+### Example: Custom Comparison Function
+
+```typescript
+const base = { a: '1', b: '2' };
+const target = { a: 1, b: 2 };
+
+const diff = objectDiff(base, target, {
+  compareFn: (a, b) => String(a) === String(b),
+});
+
+console.log(diff);
+// Output:
+// {
+//   added: {},
+//   removed: {},
+//   updated: {},
+// }
 ```
 
 ---
 
-## API
+## API Documentation
 
 ### `objectDiff<T>(base: T, target: T, options?: ObjectDiffOptions): ObjectDiff<T>`
 
 #### Parameters
-
-- **`base`**: The base object to compare from.  
-- **`target`**: The target object to compare to.  
-- **`options`** (optional):  
-  - **`ignoreKeys`**: An array of keys to exclude from the comparison.  
-  - **`compareFn`**: A custom function for comparing values. Defaults to strict equality (`===`).  
+- **`base`**: The base object to compare from.
+- **`target`**: The target object to compare to.
+- **`options`**:
+  - `ignoreKeys` (string[]): Keys to ignore during comparison.
+  - `compareFn` ((a: any, b: any) => boolean): Custom comparison function.
 
 #### Returns
+An object with the following structure:
+```typescript
+interface ObjectDiff<T> {
+  added: Partial<T>; // Keys added in the target object
+  removed: Partial<T>; // Keys removed from the base object
+  updated: Partial<T>; // Keys updated in the target object
+}
+```
 
-An object with the following properties:  
-- **`added`**: Keys present in `target` but not in `base`.  
-- **`removed`**: Keys present in `base` but not in `target`.  
-- **`updated`**: Keys with different values between `base` and `target`.  
+---
+
+### `diffArrays<T>(base: T[], target: T[]): { added: T[]; removed: T[] }`
+
+#### Parameters
+- **`base`**: The base array to compare from.
+- **`target`**: The target array to compare to.
+
+#### Returns
+An object with the following structure:
+```typescript
+{
+  added: T[]; // Elements present in `target` but not in `base`
+  removed: T[]; // Elements present in `base` but not in `target`
+}
+```
+
+---
+
+## Roadmap
+
+- **Custom Deep Comparison**: Extend support for custom comparison in nested structures.
+- **Performance Enhancements**: Optimize nested structure comparisons for very large objects.
+- **Type Refinements**: Add stricter TypeScript typing for deeply nested comparisons.
+
+---
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b my-feature-branch`
+3. Commit your changes: `git commit -m 'Add some feature'`
+4. Push the branch: `git push origin my-feature-branch`
+5. Open a pull request.
 
 ---
 
 ## License
 
-MIT
-
-## Contributing
-
-Feel free to submit issues or pull requests to enhance this library! 😊
+This project is licensed under the MIT License. See the `LICENSE` file for details. 
