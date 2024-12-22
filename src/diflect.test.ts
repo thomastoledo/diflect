@@ -47,7 +47,7 @@ describe('diflect', () => {
     test('identifies added, removed, and updated keys', () => {
       const base = { a: 1, b: 2, c: 3 };
       const target = { a: 1, b: 20, d: 4 };
-      const diff = objectDiff(base, target);
+      const diff = objectDiff<Record<string, any>>(base, target);
       expect(diff).toEqual({
         added: { d: 4 },
         removed: { c: 3 },
@@ -58,7 +58,7 @@ describe('diflect', () => {
     test('handles nested objects', () => {
       const base = { a: { x: 1, y: 2 }, b: 2 };
       const target = { a: { x: 1, y: 20 }, b: 2 };
-      const diff = objectDiff(base, target);
+      const diff = objectDiff<Record<string, any>>(base, target);
       expect(diff).toEqual({
         added: {},
         removed: {},
@@ -69,7 +69,7 @@ describe('diflect', () => {
     test('handles arrays in objects', () => {
       const base = { a: [1, 2], b: [3, 4] };
       const target = { a: [1, 2, 3], b: [3, 4] };
-      const diff = objectDiff(base, target);
+      const diff = objectDiff<Record<string, any>>(base, target);
       expect(diff).toEqual({
         added: {},
         removed: {},
@@ -93,7 +93,7 @@ describe('diflect', () => {
     test('handles custom comparison function', () => {
       const base = { a: '1', b: '2' };
       const target = { a: 1, b: '20' };
-      const diff = objectDiff(base, target, {
+      const diff = objectDiff<Record<string, any>>(base, target, {
         compareFn: (a, b) => String(a) === String(b),
       });
       expect(diff).toEqual({
@@ -117,7 +117,7 @@ describe('diflect', () => {
     test('handles null values', () => {
       const base = { a: null, b: 2 };
       const target = { a: null, b: null };
-      const diff = objectDiff(base, target);
+      const diff = objectDiff<Record<string, any>>(base, target);
       expect(diff).toEqual({
         added: {},
         removed: {},
