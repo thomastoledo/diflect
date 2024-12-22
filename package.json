@@ -1,6 +1,6 @@
 {
   "name": "diflect",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [
     "object",
     "diff",
@@ -67,6 +67,6 @@
   },
   "homepage": "https://github.com/thomastoledo/Diflect#readme",
   "dependencies": {
-    "taibeul": "^0.0.1"
+    "taibeul": "^0.0.2"
   }
 }

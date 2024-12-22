@@ -1,4 +1,4 @@
-import { optimizedDifference, isEqual } from 'taibeul';
+import { optimizedDifference } from "taibeul";
 
 /**
  * Represents the difference between two objects.
